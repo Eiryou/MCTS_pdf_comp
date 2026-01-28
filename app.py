@@ -42,6 +42,18 @@ import time
 import uuid
 from collections import OrderedDict
 
+# ==============================
+# Runtime profile (FREE / STARTER)
+# ==============================
+# UIは変えずに、Render等のリソース制約に合わせて内部上限を調整できるようにする。
+# - env: PDF_COMP_PROFILE=FREE (default) / STARTER
+# - 既に個別envが設定されている場合はそちらが優先される（setdefault）。
+try:
+    import profiles as _profiles
+    _ACTIVE_PROFILE = _profiles.apply_profile_from_env()
+except Exception:
+    _ACTIVE_PROFILE = str(os.environ.get("PDF_COMP_PROFILE", "FREE")).strip().upper() or "FREE"
+
 
 # --- スレッド警告対策：Python 3.13 / 最新Streamlit対応 ---
 try:

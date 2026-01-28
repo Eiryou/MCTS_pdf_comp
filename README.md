@@ -51,6 +51,45 @@ This repository includes `render.yaml`.
 
 ---
 
+## Runtime profiles (FREE / STARTER)
+
+Render's **Free plan** can be tight for CPU/RAM and may produce 502 timeouts on
+large PDFs or aggressive MCTS settings.
+
+This repo supports two internal presets that change safety limits **without
+changing the UI**, controlled by an environment variable:
+
+- `PDF_COMP_PROFILE=FREE` (default): conservative limits for public demos on Free.
+- `PDF_COMP_PROFILE=STARTER`: higher limits for paid plans.
+
+### Recommended settings
+
+**FREE (public demo / stability first)**
+- Lower caps: iterations/threads/runtime/page count/upload size
+- Stronger concurrency & rate limits
+
+**STARTER (paid plan / more throughput)**
+- Higher caps: iterations/threads/runtime
+- Higher upload/page limits
+
+### How to switch
+
+On Render:
+1. Open your service
+2. Settings → Environment
+3. Add / change `PDF_COMP_PROFILE` to `FREE` or `STARTER`
+4. Deploy (restart)
+
+You can still override specific limits by setting env vars directly (they take
+priority over the preset):
+
+- `NEO_MAX_ITERATIONS`, `NEO_MAX_THREADS`, `NEO_MAX_RUNTIME_SECONDS`
+- `NEO_MAX_UPLOAD_MB`, `NEO_MAX_PDF_PAGES`
+
+See `profiles.py` for the exact values.
+
+---
+
 ## Disclaimer
 
 This software is provided **AS IS**. Always verify important documents before use.

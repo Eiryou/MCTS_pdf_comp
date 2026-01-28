@@ -1,75 +1,91 @@
-# Technical Flowchart (Mermaid)
+# Technical Flowchart (MCTS PDF Compression)
 
-This project treats PDF compression as a **search/optimization** problem.
-Each rollout runs a real recompression pipeline (pikepdf + Pillow) and is scored by a multi-objective function.
+This project treats PDF compression as a **search / optimization problem**.
+Each MCTS rollout runs a *real* recompression pipeline (pikepdf + Pillow) and is
+scored by a multi-objective function (size reduction × quality proxies × safety).
 
-> GitHub renders Mermaid automatically in Markdown.
+## High-level pipeline
 
 ```mermaid
 flowchart TD
-  A[Upload PDF] --> B{Security guards}
-  B -->|size <= limit| B1[Read bytes]
-  B -->|pages <= limit| B2[Parse via pikepdf]
-  B -->|rate ok| B3[Acquire job semaphore]
+  A[User uploads PDF] --> B[Security guards
+- upload size limit
+- page count limit
+- rate limit
+- concurrency limit]
+  B --> C[Session ID + cache key]
+  C --> D[Detect document traits
+- color presence
+- profile: text / mixed / image
+- image weight]
+  D --> E[Set soft target reduction
+(Auto or user selection)]
+  E --> F[Extract representative sample images
+(for scoring & preview)]
 
-  B1 --> C[Session ID + Cache Key]
-  B2 --> D[Analyze document]
-  D --> D1[Detect color usage]
-  D --> D2[Estimate profile: text / mixed / image]
-  D2 --> D3[Set soft target reduction]
+  F --> G[Seed evaluation
+(hand-tuned initial states)]
+  G --> H{Best state found?}
+  H -->|Yes| I[MCTS Loop]
+  H -->|No| I
 
-  C --> E[Extract sample images]
-  E --> E1[Representative XObject image sampling]
+  I --> J[Select node (UCB)]
+  J --> K[Expand node (apply one action)]
+  K --> L[Parallel rollouts
+(ThreadPoolExecutor)]
+  L --> M[Execute compression
+(GS-Emulation → pike-only)]
 
-  D3 --> F[Initialize seed states]
-  F --> G[Evaluate seeds]
+  M --> N[Scoring
+- size reduction vs target
+- SSIM-like MSE proxy
+- color penalty
+- zoom robustness]
+  N --> O[Backpropagate avg score]
+  O --> P[Update best solution]
+  P --> Q[Adaptive gate
+(relax min quality threshold if stalled)]
+  Q --> I
 
-  G --> H[MCTS loop (iterations)]
-  H --> I[Selection: UCB]
-  I --> J[Expansion: pick untried action]
-  J --> K[Parallel rollouts (ThreadPoolExecutor)]
-
-  K --> L[Execute recompression pipeline]
-  L --> L1[Strip metadata]
-  L1 --> L2[Recompress images]
-  L2 --> L2a[Decode PdfImage -> PIL]
-  L2a --> L2b[Downsample (GS-emulation rules)]
-  L2b --> L2c{Choose output kind}
-  L2c -->|jpeg| L2d[Encode JPEG (quality/subsampling/progressive)]
-  L2c -->|flate| L2e[Build PDF Image XObject (FlateDecode)]
-  L2d --> L2f[Replace only if smaller]
-  L2e --> L2f
-
-  L2f --> L3[Recompress simple Flate streams]
-  L3 --> L4[Save with object streams + compress_streams]
-
-  L4 --> M[Score rollout]
-  M --> M1[Size reduction term]
-  M --> M2[Quality term (SSIM-like MSE proxy)]
-  M --> M3[Color penalty]
-  M --> M4[Zoom robustness coeff]
-  M --> M5[Gate/anneal threshold]
-
-  M --> N[Backpropagate average score]
-  N --> O{Best improved?}
-  O -->|yes| P[Update best state]
-  O -->|no| Q[Stall count++ -> relax gate]
-
-  P --> R[Render progress + preview]
-  Q --> R
-  R --> H
-
-  H --> S[Finish / time budget]
-  S --> T[Run best state once more]
-  T --> U[Download optimized PDF]
-
-  %% Cache
-  C --> C1{Cache hit?}
-  C1 -->|yes| U
-  C1 -->|no| L
+  P --> R[Final recompress using best state]
+  R --> S[Return PDF + Download]
 ```
 
-## Notes
-- **Ghostscript-free**: even if GS exists on the host, this build does *not* execute it (GS-emulation only).
-- **Safety guards**: designed to avoid common failures (e.g., accidental grayscale conversion on color documents).
-- **Replace-only-if-smaller**: prevents “compression” that actually inflates the PDF.
+## Compression core (GS-Emulation, Ghostscript-free)
+
+```mermaid
+flowchart TD
+  A[Input PDF bytes] --> B[Metadata strip]
+  B --> C[pikepdf open]
+
+  C --> D[Images pass
+- traverse /XObject /Image (incl. /Form recursion)
+- PdfImage → PIL]
+  D --> E[Safety guards
+- avoid SMask/Mask
+- preserve color if original has color]
+  E --> F[Downsample decision (GS-like)
+- page inches × target DPI × threshold]
+  F --> G[Encode decision
+- JPEG (DCTDecode)
+- or PDF-valid Flate image]
+  G --> H[Replace only if smaller
+(dedupe by SHA1)]
+
+  C --> I[Streams pass
+- recompress simple Flate streams
+- contents & form streams
+- dedupe]
+
+  H --> J[pikepdf save
+- compress_streams
+- object streams]
+  I --> J
+  J --> K[Output PDF bytes]
+```
+
+## Why a flowchart file is useful in the repo
+
+- Reviewers can understand the **search loop** and **what is actually executed**.
+- It documents safety assumptions and the “Ghostscript-free” design.
+- Helps users diagnose performance issues (Free plan timeouts) and tune profiles.

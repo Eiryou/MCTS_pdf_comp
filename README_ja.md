@@ -37,6 +37,36 @@ streamlit run app.py
 2. Render で **New > Blueprint** を選択  
 3. リポジトリを選択して Deploy  
 
+---
+
+## 実行プロファイル（FREE / STARTER）
+
+Render の **Freeプラン**は CPU/RAM が厳しく、PDFが大きい場合や MCTS の探索が重い場合に
+**502（タイムアウト）**になりやすいです。
+
+このリポジトリでは、UIは変えずに内部上限だけを切り替えられるよう、
+2つのプロファイルを用意しました（環境変数で切替）。
+
+### 使い方（環境変数）
+
+- Free向け（既定）:
+  - `PDF_COMP_PROFILE=FREE`
+- Starter向け:
+  - `PDF_COMP_PROFILE=STARTER`
+
+Render では、サービスの **Environment** から `PDF_COMP_PROFILE` を追加・変更できます。
+Starter に上げたら `STARTER` に切り替えるのが目安です。
+
+### 何が変わる？（例）
+
+- `NEO_MAX_ITERATIONS`（探索ステップの上限）
+- `NEO_MAX_THREADS`（並列スレッド上限）
+- `NEO_MAX_RUNTIME_SECONDS`（全体タイムアウト）
+- `NEO_MAX_UPLOAD_MB` / `NEO_MAX_PDF_PAGES`（DoS対策上限）
+
+※ スライダーの表示（UI）はそのままですが、内部で自動的にクランプされます。
+Free環境では「重い設定を選んでも中で上限がかかる」ので、落ちにくくなります。
+
 ## 免責事項
 このソフトウェアは **現状有姿（AS IS）** で提供されます。  
 重要書類は必ずバックアップを取り、出力結果を確認してから利用してください。
@@ -45,7 +75,7 @@ streamlit run app.py
 Apache-2.0（`LICENSE` を参照）
 
 ## ドキュメント
-- 技術フローチャート：`docs/flowchart.md`
+- 技術フローチャート：`docs/flowchart_ja.md`（英語版: `docs/flowchart.md`）
 - 日本語 README：`README_ja.md`
 - 技術ノート：`TECHNICAL_NOTES.txt` / `TECHNICAL_NOTES_EXTENDED.txt`
 

@@ -7,6 +7,9 @@ services:
     startCommand: streamlit run app.py --server.port $PORT --server.address 0.0.0.0 --server.headless true --browser.gatherUsageStats false
     autoDeploy: true
     envVars:
+      # Runtime profile (switch to STARTER when you upgrade the plan)
+      - key: PDF_COMP_PROFILE
+        value: "FREE"
       - key: MPLCONFIGDIR
         value: /tmp/matplotlib
       - key: XDG_CACHE_HOME

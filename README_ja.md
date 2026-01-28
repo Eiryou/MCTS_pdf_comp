@@ -48,3 +48,9 @@ Apache-2.0（`LICENSE` を参照）
 - 技術フローチャート：`docs/flowchart.md`
 - 日本語 README：`README_ja.md`
 - 技術ノート：`TECHNICAL_NOTES.txt` / `TECHNICAL_NOTES_EXTENDED.txt`
+
+
+### リポジトリ運用の注意
+- **日本語などの非ASCIIファイル名は避けてください**（特に `assets/` 配下）。
+  既に含まれている場合は `python tools/rename_non_ascii.py` で一括リネームできます。
+  リネーム後は README の画像パス等も合わせて修正してください。

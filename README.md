@@ -65,3 +65,8 @@ Apache-2.0 (see LICENSE).
 ## Docs
 - Technical flowchart: `docs/flowchart.md`
 - Japanese README: `README_ja.md`
+
+
+### Repo hygiene
+- **Use ASCII-only filenames** in this repository (avoid Japanese filenames), especially under `assets/`.
+  If you already have non-ASCII filenames, run: `python tools/rename_non_ascii.py`.

@@ -1,0 +1,47 @@
+NEO PDF AI-Optimizer - Technical Notes (Extended)
+
+This repository accompanies a research-style implementation of:
+"AI-guided PDF Structural Compression via Domain-Constrained Monte Carlo Tree Search"
+
+1) Problem Framing
+PDF compression is treated as an optimization problem over a structured document space:
+- objective: minimize output size
+- constraints: preserve readability/compatibility (soft constraints with penalties)
+- actions: parameter changes + pipeline mode switches
+
+2) Why MCTS (instead of grid/random)
+The search space is discrete and highly non-linear. Many combinations fail silently or degrade quality abruptly.
+MCTS provides:
+- exploration/exploitation balance
+- reuse of partial search knowledge via backpropagated scores
+- graceful anytime behavior (best-so-far always available)
+
+3) Domain Constraints
+Actions are constrained based on document profile and color detection:
+- avoid grayscale conversion when original contains color
+- avoid downsampling for text-like images
+- enforce lower bounds on quality for mixed/image profiles
+These reduce catastrophic outcomes and stabilize rollout results.
+
+4) Evaluation Function (multi-objective, asymmetric)
+Score combines:
+- reduction ratio (progress toward soft target)
+- visual similarity proxy (MSE-based SSIM-like estimate on sampled images)
+- color preservation penalty
+- zoom robustness coefficient (downsample/sharpness/mse mix)
+Asymmetry: strong penalties for catastrophic color loss on color documents.
+
+5) GS-Emulation
+Ghostscript is not executed. "engine=gs" maps to:
+- preset -> JPEG quality, subsampling, dpi-like targets, colorspace strategy
+implemented with pikepdf + Pillow only.
+
+6) Security/Hardening for public demo
+- upload size cap
+- page count cap
+- concurrency semaphore
+- rate limit per client
+- cache isolation per Streamlit session + TTL
+
+Disclaimer:
+This is research/experimental software. Always verify outputs.

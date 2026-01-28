@@ -1,0 +1,14 @@
+MCTS_pdf_comp / NEO PDF AI-Optimizer
+Copyright (c) 2024-2026 Hideyoshi_Murakami
+
+This product is distributed under the Apache License, Version 2.0.
+
+Third-party components:
+- Streamlit
+- pikepdf (bundles/depends on qpdf)
+- Pillow
+- numpy
+- matplotlib
+
+Note:
+- This build is designed to run WITHOUT executing Ghostscript. (GS-Emulation / pikepdf+Pillow only)

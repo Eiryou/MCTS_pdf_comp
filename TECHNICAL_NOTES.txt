@@ -1,0 +1,16 @@
+NEO PDF AI-Optimizer - Technical Notes (Short)
+
+This project frames PDF compression as a constrained global optimization problem.
+
+Core pipeline:
+- Metadata stripping (pikepdf)
+- Image recompression (PdfImage -> PIL -> JPEG/Flate) with safety guards
+- Safe Flate recompression for simple Flate streams
+- Structural save optimizations (object streams, compress_streams)
+
+Search:
+- Domain-constrained Monte Carlo Tree Search (MCTS)
+- Real execution rollouts (no simulation)
+- Multi-objective scoring with asymmetric penalties
+
+See TECHNICAL_NOTES_EXTENDED.txt for a longer description.

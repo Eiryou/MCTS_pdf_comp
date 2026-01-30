@@ -5,6 +5,10 @@
 Author: Hideyoshi Murakami  
 X (Twitter): @nagisa7654321  
 
+## DOI (Zenodo)
+10.5281/zenodo.18428396
+https://doi.org/10.5281/zenodo.18428396
+
 ---
 
 ## Overview

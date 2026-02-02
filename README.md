@@ -9,6 +9,11 @@ X (Twitter): @nagisa7654321
 10.5281/zenodo.18428396
 https://doi.org/10.5281/zenodo.18428396
 
+##DEMO URL ###
+https://mcts-pdf-comp.onrender.com/
+
+I'm deploying using Render. I'm on the Starter plan, so I only have 512MB of memory and my site crashes sometimes. Please set the file size to less than 1MB and move the search frequency and thread count sliders to the left. This is experimental and is being run with limited funding.
+
 ---
 
 ## Overview

@@ -109,7 +109,7 @@ This software is provided **AS IS**. Always verify important documents before us
 
 ## License
 
-Apache-2.0 (see LICENSE).
+MIT License
 
 
 ## Docs

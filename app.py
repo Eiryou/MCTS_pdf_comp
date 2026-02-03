@@ -2221,7 +2221,7 @@ st.set_page_config(page_title="Hideyoshi_Murakami PDF AI-Optimizer v7.20.0", lay
 
 st.markdown("""
     # 🚀 Hideyoshi_Murakami PDF AI-Optimizer v7.20.0
-    **Hybrid GS + PikePDF Deep-Structural Build (GS Auto-Use if Available)**
+    *If you're testing this on the web, please slide the exploration count and thread count sliders all the way to the left. **
 """)
 
 # X handle (rerunしても消えない固定表示)

@@ -39,6 +39,12 @@ Unlike conventional tools, each rollout executes a real recompression pipeline a
 
 ---
 
+##
+Why so many clones but few stars?
+
+A: This is a “try locally” type of project.
+If this helped you, please consider starring ⭐ (it supports further development).
+
 ## Quick Start (Local)
 
 ```bash

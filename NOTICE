@@ -1,14 +1,23 @@
-MCTS_pdf_comp / NEO PDF AI-Optimizer
-Copyright (c) 2024-2026 Hideyoshi_Murakami
+Murakami Compressor Suite
+Copyright (c) 2026 Hideyoshi Murakami
 
-This product is distributed under the Apache License, Version 2.0.
+Author / Developer
+------------------
+Hideyoshi Murakami
+X (Twitter): @nagisa7654321
+GitHub Issues
 
-Third-party components:
-- Streamlit
-- pikepdf (bundles/depends on qpdf)
-- Pillow
-- numpy
-- matplotlib
+Attribution
+-----------
+This work is provided under the Apache License, Version 2.0.
+You may not use this work except in compliance with the License.
+If you redistribute this work or derivative works, you must retain:
+- a copy of the Apache License 2.0 (LICENSE file), and
+- this NOTICE file, and
+- applicable copyright/attribution notices.
 
-Note:
-- This build is designed to run WITHOUT executing Ghostscript. (GS-Emulation / pikepdf+Pillow only)
+Optional (Non-binding) Notification Request
+-------------------------------------------
+If you publish or redistribute a modified version, the author would appreciate
+a notification via GitHub Issues or X (Twitter).
+This is a request only and does not modify the Apache-2.0 license terms.

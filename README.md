@@ -121,6 +121,10 @@ Apache License 2.0
 ## Docs
 - Technical flowchart: `docs/flowchart.md`
 - Japanese README: `README_ja.md`
+- 
+## Contact
+For comments, work, and collaborations, please contact us here
+murakami3tech6compres9sion@gmail.com
 
 
 ### Repo hygiene

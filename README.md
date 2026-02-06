@@ -123,7 +123,7 @@ Apache License 2.0
 - Japanese README: `README_ja.md`
 - 
 ## Contact
-For comments, work, and collaborations, please contact us here 
+For comments, work, and collaborations, please contact us here and If you want to use it for commercial purposes, please contact me
 ## murakami3tech6compres9sion@gmail.com   
 
 

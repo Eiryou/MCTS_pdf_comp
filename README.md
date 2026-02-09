@@ -1,3 +1,5 @@
+## ![](https://github-visitor-counter-tau.vercel.app/api?username=Eiryou)
+
 # NEO PDF AI-Optimizer
 
 **AI-Guided PDF Structural Compression via Domain-Constrained Monte Carlo Tree Search (MCTS)**
